@@ -1,50 +1,28 @@
 package Project.Model;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.Collection;
 import java.util.HashMap;
 
 public class GestionFactory {
-    private static final HashMap<Integer, Project.Model.Student> listEtudiants = intializeListEtudiants();
-    private static final HashMap<Integer, Integer> listEtudiantAbsence = intializelistEtudiantAbsence();
+    // Nom de l'unité de persistence
+    // Permet le lien avec le fichier persistence.xml présent dans le dossier META-INF
+    // Ce fichier contient les propriétés de connexion à la base de données
+    //private static final String PERSISTENCE_UNIT_NAME = "Projet_SQLITE";
+    //private static final String PERSISTENCE_UNIT_NAME = "Projet_JPA_MYSQL";
+    private static final String PERSISTENCE_UNIT_NAME = "Projet_JPA_DIST";
 
-    // Initialisation des étudiants
-    private static HashMap<Integer, Project.Model.Student> intializeListEtudiants() {
+    // Factory pour la création d'EntityManager (gestion des transactions)
+    public static EntityManagerFactory factory;
 
-        // Création des étudiants
-        Project.Model.Student etu1 = new Project.Model.Student(0, "Francis", "Brunet-Manquat");
-        Project.Model.Student etu2 = new Project.Model.Student(1, "Philippe", "Martin");
-
-        HashMap<Integer, Project.Model.Student> listEtudiantsTemp = new HashMap<>();
-        listEtudiantsTemp.put(etu1.getId(), etu1);
-        listEtudiantsTemp.put(etu2.getId(), etu2);
-
-        return listEtudiantsTemp;
+    // Creation de la factory
+    public static void open() {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     }
 
-    // Initialisation des absences
-    private static final HashMap<Integer, Integer> intializelistEtudiantAbsence() {
-
-        // Association etudiant id -> absences
-        HashMap<Integer, Integer> listEtudiantAbsenceTemp = new HashMap<>();
-        listEtudiantAbsenceTemp.put(listEtudiants.get(0).getId(), 0);
-        listEtudiantAbsenceTemp.put(listEtudiants.get(1).getId(), 7);
-
-        return listEtudiantAbsenceTemp;
+    // Fermeture de la factory
+    public static void close() {
+        factory.close();
     }
-
-    // Donne l'ensemble des etudiants
-    public static Collection<Project.Model.Student> getEtudiants() {
-        return listEtudiants.values();
-    }
-
-    // Donne l'ensemble des etudiants
-    public static Project.Model.Student getEtudiantById(int id) {
-        return listEtudiants.get(id);
-    }
-
-    // Donne le nombre d'absences d'un etudiant à l'aide de son id
-    public static Integer getAbsencesByEtudiantId(int id) {
-        return listEtudiantAbsence.get(id);
-    }
-
 }

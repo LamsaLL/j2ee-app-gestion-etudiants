@@ -3,6 +3,7 @@ package Project.Controller;
 import Project.*;
 import Project.Model.GestionFactory;
 import Project.Model.Student;
+import Project.Model.StudentDAO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -91,8 +92,8 @@ public class Index extends HttpServlet {
                            HttpServletResponse response) throws ServletException, IOException {
 
         try {
-            if (GestionFactory.getEtudiantById(Integer.parseInt(request.getParameter("id"))) != null) {
-                Student student = GestionFactory.getEtudiantById(Integer.parseInt(request.getParameter("id")));
+            if (StudentDAO.getById(Integer.parseInt(request.getParameter("id"))) != null) {
+                Student student = StudentDAO.getById(Integer.parseInt(request.getParameter("id")));
                 request.setAttribute("student", student);
                 request.setAttribute("content", urlStudent);
                 loadJSP(urlLayout, request, response);
@@ -111,7 +112,7 @@ public class Index extends HttpServlet {
                                HttpServletResponse response) throws ServletException, IOException {
 
         try {
-            Collection<Student> studentList = (Collection<Student>) GestionFactory.getEtudiants();
+            Collection<Student> studentList = (Collection<Student>) StudentDAO.getAll();
             request.setAttribute("studentList", studentList);
             request.setAttribute("content", urlStudentList);
             loadJSP(urlLayout, request, response);
@@ -127,7 +128,7 @@ public class Index extends HttpServlet {
     private void doMarks(HttpServletRequest request,
                                HttpServletResponse response) throws ServletException, IOException {
         try {
-            Collection<Student> studentList = (Collection<Student>) GestionFactory.getEtudiants();
+            Collection<Student> studentList = (Collection<Student>) StudentDAO.getAll();
             request.setAttribute("studentList", studentList);
             request.setAttribute("content", urlMarks);
             loadJSP(urlLayout, request, response);
@@ -143,7 +144,7 @@ public class Index extends HttpServlet {
     private void doAbsences(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
         try {
-            Collection<Student> studentList = (Collection<Student>) GestionFactory.getEtudiants();
+            Collection<Student> studentList = (Collection<Student>) StudentDAO.getAll();
             request.setAttribute("studentList", studentList);
             request.setAttribute("content", urlAbsences);
             loadJSP(urlLayout, request, response);
@@ -180,6 +181,5 @@ public class Index extends HttpServlet {
         RequestDispatcher rd = sc.getRequestDispatcher(url);
         rd.forward(request, response);
     }
-
 
 }

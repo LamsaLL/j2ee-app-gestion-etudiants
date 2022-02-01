@@ -14,6 +14,14 @@
         <element id="directory" name="classes">
           <element id="module-output" name="j2ee-app-gestion-etudiants" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.eclipse.persistence:eclipselink:2.7.7" />
+          <element id="library" level="project" name="Maven: org.eclipse.persistence:jakarta.persistence:2.2.3" />
+          <element id="library" level="project" name="Maven: org.eclipse.persistence:commonj.sdo:2.1.1" />
+          <element id="library" level="project" name="Maven: org.xerial:sqlite-jdbc:3.32.3.2" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.23" />
+          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.11.4" />
+        </element>
       </element>
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/target/j2ee-app-gestion-etudiants-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
