@@ -3,6 +3,7 @@ package Project.Model;
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
 public class Mark implements Serializable {
     @Column(nullable = true)
     private float value;
@@ -16,7 +17,6 @@ public class Mark implements Serializable {
 //    @ManyToOne
 //    @JoinColumn(nullable = false)
 //    private Module module;
-
 
     public float getValue() {
         return value;

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Group implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -15,7 +16,7 @@ public class Group implements Serializable {
     @Column(unique = false, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy="group", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     // LAZY = fetch when needed, EAGER = fetch immediately
     private List<Student> students;
 

@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+@Entity
 public class Absence implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

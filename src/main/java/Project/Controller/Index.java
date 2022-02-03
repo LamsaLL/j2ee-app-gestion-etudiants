@@ -2,6 +2,7 @@ package Project.Controller;
 
 import Project.*;
 import Project.Model.GestionFactory;
+import Project.Model.Group;
 import Project.Model.Student;
 import Project.Model.StudentDAO;
 
@@ -22,9 +23,7 @@ public class Index extends HttpServlet {
     private String urlAbsences;
     private String urlStudent;
     private String urlStudentList;
-    //    private String urlAdmin;
     private String urlHome;
-
 
     // INIT
     public void init() throws ServletException {
@@ -35,8 +34,9 @@ public class Index extends HttpServlet {
         urlStudentList = getServletConfig().getInitParameter("urlStudentList");
         urlStudent = getServletConfig().getInitParameter("urlStudent");
         urlHome = getServletConfig().getInitParameter("urlHome");
-//        GestionFactory.open();
 
+        StudentDAO.create("leo", "amsallem", new Group());
+        GestionFactory.open();
     }
 
     // POST
@@ -181,5 +181,11 @@ public class Index extends HttpServlet {
         RequestDispatcher rd = sc.getRequestDispatcher(url);
         rd.forward(request, response);
     }
+    @Override
+    public void destroy() {
+        super.destroy();
 
+        // Fermeture de la factory
+        GestionFactory.close();
+    }
 }

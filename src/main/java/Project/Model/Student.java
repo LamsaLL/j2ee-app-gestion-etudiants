@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
+@Entity
 public class Student implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,8 +16,7 @@ public class Student implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    @JoinColumn(columnDefinition = "integer", name = "group_id", nullable = true)
+    @ManyToOne
     private Group group;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
