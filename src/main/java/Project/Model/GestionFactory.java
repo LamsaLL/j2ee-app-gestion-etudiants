@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class GestionFactory {
 
-    private static final String PERSISTENCE_UNIT_NAME = "Projet_JPA_MYSQL_DIST";
+    private static final String PERSISTENCE_UNIT_NAME = "Projet_JPA_MYSQL";
 
     // Factory pour la création d'EntityManager (gestion des transactions)
     public static EntityManagerFactory factory;

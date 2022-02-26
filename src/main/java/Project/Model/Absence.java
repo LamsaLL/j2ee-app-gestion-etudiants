@@ -5,9 +5,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name="Absence")
 public class Absence implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP")

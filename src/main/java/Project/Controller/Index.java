@@ -1,10 +1,7 @@
 package Project.Controller;
 
-import Project.*;
-import Project.Model.GestionFactory;
-import Project.Model.Group;
-import Project.Model.Student;
-import Project.Model.StudentDAO;
+import Project.Model.*;
+import Project.Model.Module;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -34,9 +31,69 @@ public class Index extends HttpServlet {
         urlStudentList = getServletConfig().getInitParameter("urlStudentList");
         urlStudent = getServletConfig().getInitParameter("urlStudent");
         urlHome = getServletConfig().getInitParameter("urlHome");
-
-        StudentDAO.create("leo", "amsallem", new Group());
         GestionFactory.open();
+
+        if ((AbsenceDAO.getAll().size() == 0)
+                && (SpecialityDAO.getAll().size() == 0)
+                && (MarkDAO.getAll().size() == 0)
+                && (ModuleDAO.getAll().size() == 0)
+                && (StudentDAO.getAll().size() == 0)){
+            // Create Modules
+            Module devMobile = ModuleDAO.create("Développement mobile");
+            Module devFront = ModuleDAO.create("Développement front-end");
+            Module anglais = ModuleDAO.create("Anglais");
+            Module reseaux = ModuleDAO.create("Système et réddeaux");
+            Module maths = ModuleDAO.create("Mathématiques");
+            Module bdd = ModuleDAO.create("Base de données");
+            Module php = ModuleDAO.create("PHP");
+            Module devops = ModuleDAO.create("DEVOPS");
+            Module python = ModuleDAO.create("python");
+
+            // Create specialities
+            Speciality aw = SpecialityDAO.create("AW");
+            Speciality assr = SpecialityDAO.create("ASSR");
+            Speciality bigData = SpecialityDAO.create("BIG-DATA");
+            Speciality simo = SpecialityDAO.create("SIMO");
+
+            // AW => Développement Mobile Développement-front Anglais
+            // ASSR => Système et réseaux  Mathématiques pour la sécurité Anglais
+            // BIG DATA => BASE DE DONNEES PHP DEVOPS
+            // SIMO => DEVOPS BASE DE DONNEES PYTHON
+            // Link Module and groups
+            aw.addModule(devMobile);
+            SpecialityDAO.update(aw);
+            aw.addModule(devFront);
+            SpecialityDAO.update(aw);
+            aw.addModule(anglais);
+            SpecialityDAO.update(aw);
+            bigData.addModule(bdd);
+            SpecialityDAO.update(bigData);
+            bigData.addModule(devops);
+            SpecialityDAO.update(bigData);
+            bigData.addModule(php);
+            SpecialityDAO.update(bigData);
+            assr.addModule(reseaux);
+            SpecialityDAO.update(assr);
+            assr.addModule(maths);
+            SpecialityDAO.update(assr);
+            assr.addModule(anglais);
+            SpecialityDAO.update(assr);
+            simo.addModule(devops);
+            SpecialityDAO.update(simo);
+            simo.addModule(bdd);
+            SpecialityDAO.update(simo);
+            simo.addModule(python);
+            SpecialityDAO.update(simo);
+
+            // Create students
+            StudentDAO.create("Philippe", "Poutou", aw);
+            StudentDAO.create("Marine", "Lepen", simo);
+            StudentDAO.create("Emmanuel", "Macron", aw);
+            StudentDAO.create("Eric", "Zemmour", bigData);
+            StudentDAO.create("Jean", "Lassale", assr);
+        }
+
+
     }
 
     // POST

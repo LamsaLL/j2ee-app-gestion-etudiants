@@ -5,9 +5,10 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
+@Table(name="Student")
 public class Student implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 
     @Column(nullable = false)
@@ -17,7 +18,7 @@ public class Student implements Serializable {
     private String name;
 
     @ManyToOne
-    private Group group;
+    private Speciality speciality;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Absence> absences;
@@ -25,18 +26,14 @@ public class Student implements Serializable {
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Mark> marks;
 
-    private static final long serialVersionUID = 1L;
 
-    public Student() {
-        super();
+    public List<Absence> getAbsences() {
+        return absences;
     }
 
-//    public Student(Integer id, String firstName, String name) {
-//        super();
-//        this.id = id;
-//        this.firstName = firstName;
-//        this.name = name;
-//    }
+    public void setAbsences(List<Absence> absences) {
+        this.absences = absences;
+    }
 
     public Integer getId() {
         return id;
@@ -62,19 +59,23 @@ public class Student implements Serializable {
         this.name = name;
     }
 
-    public Group getGroup() {
-        return this.group;
+    public Speciality getSpeciality() {
+        return this.speciality;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
-        if (!group.getStudents().contains(this)) {
-            group.getStudents().add(this);
+    public void setSpeciality(Speciality speciality) {
+        this.speciality = speciality;
+        if (!speciality.getStudents().contains(this)) {
+            speciality.getStudents().add(this);
         }
     }
 
     public List<Mark> getMarks() {
         return this.marks;
+    }
+
+    public void setMarks(List<Mark> marks) {
+        this.marks = marks;
     }
 
     public float getAverage() {

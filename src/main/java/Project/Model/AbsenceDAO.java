@@ -1,7 +1,9 @@
 package Project.Model;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class AbsenceDAO {
     public static Absence create(LocalDateTime start, LocalDateTime end, Boolean justified, int studentId) {
@@ -49,6 +51,22 @@ public class AbsenceDAO {
         em.close();
 
         return absence;
+    }
+
+
+    // Retourne l'ensemble des absences
+    public static List<Absence> getAll() {
+
+        // Creation de l'entity manager
+        EntityManager em = GestionFactory.factory.createEntityManager();
+
+        // Recherche
+        Query q = em.createQuery("SELECT a FROM Absence a");
+
+        @SuppressWarnings("unchecked")
+        List<Absence> list = q.getResultList();
+
+        return list;
     }
 
     public static Absence update(Absence absence) {

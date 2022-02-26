@@ -40,8 +40,7 @@
                     <td><%= student.getName()%></td>
                     <td>
                         <% if (student.getId() != null) { %>
-<%--                        <a href="<%= application.getContextPath()%>/do/groupe?id=<%=student.getGroupe().getId()%>"><%=student.getGroupe().getNom()%></a>--%>
-                            <a href="#">lol</a>
+                        <a href="<%= application.getContextPath()%>/do/goup?id=<%=student.getSpeciality().getId()%>"><%=student.getSpeciality().getName()%></a>
                         <%  } %>
                     </td>
                     <td><a href="<%= application.getContextPath()%>/do/student?id=<%=student.getId()%>"><button type="button" class="btn btn-primary">Détails</button></a></td>

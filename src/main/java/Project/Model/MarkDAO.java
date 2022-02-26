@@ -2,6 +2,7 @@ package Project.Model;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.util.List;
 
 public class MarkDAO {
     public static Mark update(Mark mark) {
@@ -23,7 +24,7 @@ public class MarkDAO {
 
         return mark;
     }
-
+    
     public static Mark create(float value, int idStudent, int idModule) {
 
         // Creation de l'entity manager
@@ -48,6 +49,21 @@ public class MarkDAO {
         em.close();
 
         return mark;
+    }
+
+    // Retourne l'ensemble des absences
+    public static List<Mark> getAll() {
+
+        // Creation de l'entity manager
+        EntityManager em = GestionFactory.factory.createEntityManager();
+
+        // Recherche
+        Query q = em.createQuery("SELECT m FROM Mark m");
+
+        @SuppressWarnings("unchecked")
+        List<Mark> list = q.getResultList();
+
+        return list;
     }
 
     public static void deleteById(int idStudent, int idModule) {

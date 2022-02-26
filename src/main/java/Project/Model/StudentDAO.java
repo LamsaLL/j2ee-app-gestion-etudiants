@@ -13,19 +13,16 @@ public class StudentDAO {
 
         em.getTransaction().begin();
         //
-        Student etu = em.find(Student.class, id);
-        // etu est maintenant un objet de la classe Etudiant
-        // ou NULL si l'étudiant n'existe pas
-
+        Student student = em.find(Student.class, id);
 
         // Close the entity manager
         em.close();
 
-        return etu;
+        return student;
     }
 
 
-    public static Student create(String prenom, String nom, Group group) {
+    public static Student create(String firstName, String name, Speciality speciality) {
 
         // Creation de l'entity manager
         EntityManager em = GestionFactory.factory.createEntityManager();
@@ -34,13 +31,13 @@ public class StudentDAO {
         em.getTransaction().begin();
 
         // create new etudiant
-        Student etudiant = new Student();
-        etudiant.setName(prenom);
-        etudiant.setFirstName(nom);
-        if (group != null) {
-            etudiant.setGroup(group);
+        Student student = new Student();
+        student.setName(firstName);
+        student.setFirstName(name);
+        if (speciality != null) {
+            student.setSpeciality(speciality);
         }
-        em.persist(etudiant);
+        em.persist(student);
 
         // Commit
         em.getTransaction().commit();
@@ -48,7 +45,22 @@ public class StudentDAO {
         // Close the entity manager
         em.close();
 
-        return etudiant;
+        return student;
+    }
+
+    // Retourne l'ensemble des etudiants
+    public static List<Student> getAll() {
+
+        // Creation de l'entity manager
+        EntityManager em = GestionFactory.factory.createEntityManager();
+
+        // Recherche
+        Query q = em.createQuery("SELECT a FROM Student a");
+
+        @SuppressWarnings("unchecked")
+        List<Student> list = q.getResultList();
+
+        return list;
     }
 
     public static void update(Student etudiant) {
@@ -135,40 +147,20 @@ public class StudentDAO {
 
         return deletedCount;
     }
-
-    // Retourne l'ensemble des etudiants
-    public static List<Student> getAll() {
-
-        // Creation de l'entity manager
+    
+    public static List<Student> retrieveBySpeciality(Speciality speciality) {
         EntityManager em = GestionFactory.factory.createEntityManager();
 
-        em.getTransaction().begin();
-
-        // Recherche
-        Query q = em.createQuery("SELECT e FROM Student e ORDER BY e.id DESC");
-
-        @SuppressWarnings("unchecked")
-        List<Student> listStudent = q.getResultList();
-
-        em.close();
-
-        return listStudent;
-    }
-
-
-    public static List<Student> retrieveByGroup(Group group) {
-        EntityManager em = GestionFactory.factory.createEntityManager();
-
-        Query q = em.createQuery("SELECT e FROM Student e WHERE e.group = :group", Student.class);
-        return (List<Student>) q.setParameter("group", group).getResultList();
+        Query q = em.createQuery("SELECT e FROM Student e WHERE e.speciality = :speciality", Student.class);
+        return (List<Student>) q.setParameter("speciality", speciality).getResultList();
 
     }
 
-    public static List<Student> getStudentsWithoutGroup() {
+    public static List<Student> getStudentsWithoutSpeciality() {
         EntityManager em = GestionFactory.factory.createEntityManager();
 
 
-        Query q = em.createQuery("SELECT e FROM Student e WHERE e.group IS NULL", Student.class);
+        Query q = em.createQuery("SELECT e FROM Student e WHERE e.speciality IS NULL", Student.class);
         return (List<Student>) q.getResultList();
 
     }

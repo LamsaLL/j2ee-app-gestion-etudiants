@@ -4,19 +4,22 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Table(name="Mark")
 public class Mark implements Serializable {
+    @Id
+    @GeneratedValue
+    private Integer id;
+
     @Column(nullable = true)
     private float value;
 
-    @Id
     @ManyToOne
     @JoinColumn(nullable = false)
     private Student student;
 
-//    @Id
-//    @ManyToOne
-//    @JoinColumn(nullable = false)
-//    private Module module;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Module module;
 
     public float getValue() {
         return value;
@@ -34,11 +37,19 @@ public class Mark implements Serializable {
         this.student = student;
     }
 
-//    public Module getModule() {
-//        return module;
-//    }
+    public Module getModule() {
+        return module;
+    }
 
-//    public void setModule(Module module) {
-//        this.module = module;
-//    }
+    public void setModule(Module module) {
+        this.module = module;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }
