@@ -4,12 +4,6 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-    <!-- Page d'accueil du site -->
-
-    <welcome-file-list>
-        <welcome-file>do</welcome-file>
-    </welcome-file-list>
-
     <!-- Titre de l'application -->
     <context-param>
         <param-name>title</param-name>
@@ -36,10 +30,6 @@
             <param-value>/WEB-INF/shared/layout.jsp</param-value>
         </init-param>
         <init-param>
-            <param-name>urlIndex</param-name>
-            <param-value>/WEB-INF/index.jsp</param-value>
-        </init-param>
-        <init-param>
             <param-name>urlHome</param-name>
             <param-value>/WEB-INF/pages/home.jsp</param-value>
         </init-param>
@@ -49,16 +39,16 @@
             <param-value>/WEB-INF/pages/student.jsp</param-value>
         </init-param>
         <init-param>
-            <param-name>urlStudentList</param-name>
-            <param-value>/WEB-INF/pages/studentList.jsp</param-value>
+            <param-name>urlStudents</param-name>
+            <param-value>/WEB-INF/pages/students.jsp</param-value>
         </init-param>
         <init-param>
-            <param-name>urlMarks</param-name>
-            <param-value>/WEB-INF/pages/marks.jsp</param-value>
+            <param-name>urlSpecialities</param-name>
+            <param-value>/WEB-INF/pages/specialities.jsp</param-value>
         </init-param>
         <init-param>
-            <param-name>urlAbsences</param-name>
-            <param-value>/WEB-INF/pages/absences.jsp</param-value>
+            <param-name>urlSpeciality</param-name>
+            <param-value>/WEB-INF/pages/speciality.jsp</param-value>
         </init-param>
 
     </servlet>
@@ -68,6 +58,11 @@
         <url-pattern>/do/*</url-pattern>
     </servlet-mapping>
 
+    <!-- Page d'accueil du site -->
+
+    <welcome-file-list>
+        <welcome-file>do/home</welcome-file>
+    </welcome-file-list>
     <!-- route catchant toutes les erreurs 404 -->
 </web-app>
 
