@@ -32,8 +32,8 @@ public class StudentDAO {
 
         // create new etudiant
         Student student = new Student();
-        student.setName(firstName);
-        student.setFirstName(name);
+        student.setName(name);
+        student.setFirstName(firstName);
         if (speciality != null) {
             student.setSpeciality(speciality);
         }

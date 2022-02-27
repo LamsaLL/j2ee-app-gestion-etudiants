@@ -78,16 +78,27 @@ public class Student implements Serializable {
         this.marks = marks;
     }
 
-    public float getAverage() {
+    public float getAverageMark() {
         List<Mark> marks = this.getMarks();
 
-        float average = 0;
+        float sum = 0;
         int i = 0;
 
         for (Mark mark : marks) {
-            average = average + mark.getValue();
+            sum = sum + mark.getValue();
             i++;
         }
-        return average / i;
+        return sum / i;
+    }
+
+    public Mark getMarkByModule(Module module) {
+        List<Mark> marks = this.getMarks();
+
+        for (Mark mark : marks) {
+            if (mark.getModule() == module) {
+                return mark;
+            }
+        }
+        return null;
     }
 }
