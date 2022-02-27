@@ -26,19 +26,18 @@
     <%-- Container boostrap --%>
     <div class="container-fluid">
 
-        <%-- Ajout de l'entete de page --%>
+    <%-- Ajout de l'entete de page --%>
         <jsp:include page="<%= application.getInitParameter(\"header\")%>"/>
 
         <%-- Ajout du paramètre de contexte title --%>
-        <h1><%= application.getInitParameter("title")%> <small>(context-param 'title')</small></h1>
+        <h1><%= application.getInitParameter("title")%> </h1>
 
         <a href="<%= application.getContextPath()%>/do/home">Accueil</a>
-        <a href="<%= application.getContextPath()%>/do/studentList">Afficher les étudiants</a>
-        <a href="<%= application.getContextPath()%>/do/marks">Consulter les notes</a>
+        <a href="<%= application.getContextPath()%>/do/students">Consulter les étudiants</a>
+        <a href="<%= application.getContextPath()%>/do/specialities">Consulter les groupes</a>
         <a href="<%= application.getContextPath()%>/do/absences">Consulter les absences</a>
 
         <%-- Ajout de la JSP passée en paramètre sous forme de JavaBean --%>
-        <div><small>(content : ajout de la JSP passée en paramètre)</small></div>
         <jsp:include page="<%=content%>"/>
 
         <%-- Ajout du pied de page --%>

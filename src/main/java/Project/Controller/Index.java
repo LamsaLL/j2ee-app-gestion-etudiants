@@ -10,27 +10,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 public class Index extends HttpServlet {
     // URL
     private String urlLayout;
-    private String urlIndex;
-    private String urlMarks;
-    private String urlAbsences;
-    private String urlStudent;
-    private String urlStudentList;
     private String urlHome;
+    private String urlSpecialities;
+    private String urlSpeciality;
+    private String urlStudent;
+    private String urlStudents;
 
     // INIT
     public void init() throws ServletException {
         urlLayout = getServletConfig().getInitParameter("urlLayout");
-        urlIndex = getServletConfig().getInitParameter("urlIndex");
-        urlMarks = getServletConfig().getInitParameter("urlMarks");
-        urlAbsences = getServletConfig().getInitParameter("urlAbsences");
-        urlStudentList = getServletConfig().getInitParameter("urlStudentList");
-        urlStudent = getServletConfig().getInitParameter("urlStudent");
         urlHome = getServletConfig().getInitParameter("urlHome");
+        urlSpecialities = getServletConfig().getInitParameter("urlSpecialities");
+        urlSpeciality = getServletConfig().getInitParameter("urlSpeciality");
+        urlStudents = getServletConfig().getInitParameter("urlStudents");
+        urlStudent = getServletConfig().getInitParameter("urlStudent");
         GestionFactory.open();
 
         if ((AbsenceDAO.getAll().size() == 0)
@@ -86,11 +85,33 @@ public class Index extends HttpServlet {
             SpecialityDAO.update(simo);
 
             // Create students
-            StudentDAO.create("Philippe", "Poutou", aw);
-            StudentDAO.create("Marine", "Lepen", simo);
-            StudentDAO.create("Emmanuel", "Macron", aw);
-            StudentDAO.create("Eric", "Zemmour", bigData);
-            StudentDAO.create("Jean", "Lassale", assr);
+            Student poutou = StudentDAO.create("Philippe", "Poutou", aw);
+            Student lepen = StudentDAO.create("Marine", "Lepen", simo);
+            Student macron = StudentDAO.create("Emmanuel", "Macron", aw);
+            Student zemmour = StudentDAO.create("Eric", "Zemmour", bigData);
+            Student lassale = StudentDAO.create("Jean", "Lassale", assr);
+
+            // Create marks
+            MarkDAO.create(15, poutou.getId(), devFront.getId());
+            MarkDAO.create(14, poutou.getId(), anglais.getId());
+            MarkDAO.create(16, lepen.getId(), devops.getId());
+            MarkDAO.create(9, lepen.getId(), bdd.getId());
+            MarkDAO.create(11, lepen.getId(), python.getId());
+            MarkDAO.create(10, macron.getId(), devMobile.getId());
+            MarkDAO.create(19, macron.getId(), devFront.getId());
+            MarkDAO.create(8, zemmour.getId(), bdd.getId());
+            MarkDAO.create(16, zemmour.getId(), devops.getId());
+            MarkDAO.create(13, zemmour.getId(), php.getId());
+            MarkDAO.create(18, lassale.getId(), reseaux.getId());
+            MarkDAO.create(12, lassale.getId(), maths.getId());
+            MarkDAO.create(5, lassale.getId(), anglais.getId());
+
+            // Create Absences
+            AbsenceDAO.create(LocalDateTime.of(2022, 1, 28, 8, 0),
+                    LocalDateTime.of(2022, 1, 28, 12, 0), false, poutou.getId());
+            AbsenceDAO.create(LocalDateTime.of(2021, 11, 15, 8, 0),
+                    LocalDateTime.of(2021, 11, 15, 18, 0), true, zemmour.getId());
+
         }
 
 
@@ -111,37 +132,36 @@ public class Index extends HttpServlet {
         if (action == null) {
             action = "/home";
             System.out.println("action == null");
-
         }
 
         if (action.equals("/home")) {
             doHome(request, response);
         }
 
-        if (action.equals("/studentList")) {
-            doStudentList(request, response);
+        if (action.equals("/students")) {
+            doStudents(request, response);
         }
 
         if (action.equals("/student")) {
             doStudent(request, response);
         }
 
-        if (action.equals("/marks")) {
-            doMarks(request, response);
+        if (action.equals("/specialities")) {
+            doSpecialities(request, response);
         }
 
-        if (action.equals("/absences")) {
-            doAbsences(request, response);
+        if (action.equals("/speciality")) {
+            doSpeciality(request, response);
         }
 
 
-//        loadJSP(urlIndex, request, response);
+//        loadJSP(urlHome, request, response);
     }
 
     private void doHome(HttpServletRequest request,
                         HttpServletResponse response) throws ServletException, IOException {
 
-        request.setAttribute("content", urlIndex);
+        request.setAttribute("content", urlHome);
         loadJSP(urlLayout, request, response);
     }
 
@@ -165,13 +185,13 @@ public class Index extends HttpServlet {
 
 
     // Affichage de la page de la liste des étudiants
-    private void doStudentList(HttpServletRequest request,
+    private void doStudents(HttpServletRequest request,
                                HttpServletResponse response) throws ServletException, IOException {
 
         try {
-            Collection<Student> studentList = (Collection<Student>) StudentDAO.getAll();
-            request.setAttribute("studentList", studentList);
-            request.setAttribute("content", urlStudentList);
+            Collection<Student> students = (Collection<Student>) StudentDAO.getAll();
+            request.setAttribute("students", students);
+            request.setAttribute("content", urlStudents);
             loadJSP(urlLayout, request, response);
         } catch (Exception e) {
             log("Erreur: La liste des étudiants n'a pas pu être chargé correctement");
@@ -181,16 +201,16 @@ public class Index extends HttpServlet {
 
     }
 
-    // Affichage de la page de la liste des notes des étudiants
-    private void doMarks(HttpServletRequest request,
+    // Affichage de la page de la liste des groupes des étudiants
+    private void doSpecialities(HttpServletRequest request,
                                HttpServletResponse response) throws ServletException, IOException {
         try {
-            Collection<Student> studentList = (Collection<Student>) StudentDAO.getAll();
-            request.setAttribute("studentList", studentList);
-            request.setAttribute("content", urlMarks);
+            Collection<Speciality> specialities = (Collection<Speciality>) SpecialityDAO.getAll();
+            request.setAttribute("specialities", specialities);
+            request.setAttribute("content", urlSpecialities);
             loadJSP(urlLayout, request, response);
         } catch (Exception e) {
-            log("Erreur: La liste des notes des étudiants n'a pas pu être chargé correctement");
+            log("Erreur: La liste des groupes des étudiants n'a pas pu être chargé correctement");
             loadJSP(urlLayout, request, response);
         }
         // Inclusion du content dans le template
@@ -198,12 +218,18 @@ public class Index extends HttpServlet {
     }
 
     // Affichage de la page de la liste des absences des étudiants
-    private void doAbsences(HttpServletRequest request,
+    private void doSpeciality(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
         try {
-            Collection<Student> studentList = (Collection<Student>) StudentDAO.getAll();
-            request.setAttribute("studentList", studentList);
-            request.setAttribute("content", urlAbsences);
+//            Collection<Module> modules = (Collection<Module>) ModuleDAO.getAll();
+            Speciality speciality = (Speciality) SpecialityDAO.getById(Integer.parseInt(request.getParameter("id")));
+            Collection<Student> students = (Collection<Student>) speciality.getStudents();
+
+            request.setAttribute("speciality", speciality);
+            request.setAttribute("students", students);
+//            request.setAttribute("modules", modules);
+
+            request.setAttribute("content", urlSpeciality);
             loadJSP(urlLayout, request, response);
         } catch (Exception e) {
             log("Erreur: La liste des absences des étudiants n'a pas pu être chargé correctement");
