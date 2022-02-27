@@ -38,8 +38,8 @@ public class MarkDAO {
         mark.setValue(value);
         Student student = StudentDAO.getById(idStudent);
         mark.setStudent(student);
-//        Module module = ModuleDAO.getById(idModule);
-//        mark.setModule(module);
+        Module module = ModuleDAO.getById(idModule);
+        mark.setModule(module);
         em.persist(mark);
 
         // Commit
